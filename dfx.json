@@ -3,13 +3,10 @@
   "version": 1,
   "canisters": {
     "content_registry": {
-      "type": "rust",
-      "package": "content_registry",
-      "candid": "canisters/content_registry/content_registry.did"
-    },
-    "internet_identity": {
-      "type": "pull",
-      "id": "rdmx6-jaaaa-aaaah-qcaiq-cai"
+      "type": "custom",
+      "candid": "canisters/content_registry/content_registry.did",
+      "wasm": "canisters/content_registry/target/wasm32-unknown-unknown/release/content_registry.wasm",
+      "build": "cd canisters/content_registry && cargo build --target wasm32-unknown-unknown --release"
     }
   },
   "defaults": {

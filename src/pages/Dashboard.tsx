@@ -7,11 +7,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Upload, Wallet, FileText, DollarSign, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import type { User } from "@supabase/supabase-js";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription
+} from "@/components/ui/dialog";
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [openContent, setOpenContent] = useState(false);
+  const [openEarnings, setOpenEarnings] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -99,7 +109,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
           
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.open("https://identity.ic0.app/", "_blank")}>
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center text-lg">
                 <Wallet className="h-5 w-5 mr-2 text-green-600" />
@@ -113,33 +123,63 @@ const Dashboard = () => {
             </CardContent>
           </Card>
           
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center text-lg">
-                <FileText className="h-5 w-5 mr-2 text-purple-600" />
-                My Content
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                View and manage your uploaded content
-              </CardDescription>
-            </CardContent>
-          </Card>
+          <Dialog open={openContent} onOpenChange={setOpenContent}>
+            <DialogTrigger asChild>
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setOpenContent(true)}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center text-lg">
+                    <FileText className="h-5 w-5 mr-2 text-purple-600" />
+                    My Content
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    View and manage your uploaded content
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>My Content</DialogTitle>
+                <DialogDescription>Here are your uploaded content pieces (sample data):</DialogDescription>
+              </DialogHeader>
+              <ul className="mt-4 space-y-2">
+                <li className="border rounded p-2">"How to use ICP" (2 ICP earned)</li>
+                <li className="border rounded p-2">"Rust for Blockchain" (5 ICP earned)</li>
+                <li className="border rounded p-2">"NFT Art #1" (1 ICP earned)</li>
+              </ul>
+            </DialogContent>
+          </Dialog>
           
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center text-lg">
-                <DollarSign className="h-5 w-5 mr-2 text-yellow-600" />
-                Earnings
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Track your revenue and transactions
-              </CardDescription>
-            </CardContent>
-          </Card>
+          <Dialog open={openEarnings} onOpenChange={setOpenEarnings}>
+            <DialogTrigger asChild>
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setOpenEarnings(true)}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center text-lg">
+                    <DollarSign className="h-5 w-5 mr-2 text-yellow-600" />
+                    Earnings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Track your revenue and transactions
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Earnings</DialogTitle>
+                <DialogDescription>Sample earnings breakdown:</DialogDescription>
+              </DialogHeader>
+              <ul className="mt-4 space-y-2">
+                <li className="border rounded p-2 flex justify-between"><span>Total ICP Earned:</span> <span className="font-bold">12 ICP</span></li>
+                <li className="border rounded p-2 flex justify-between"><span>Last Sale:</span> <span>1 ICP (NFT Art #1)</span></li>
+                <li className="border rounded p-2 flex justify-between"><span>Pending Payout:</span> <span>0 ICP</span></li>
+              </ul>
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* Stats Overview */}
@@ -149,7 +189,7 @@ const Dashboard = () => {
               <CardTitle>Total Uploads</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-600">0</div>
+              <div className="text-3xl font-bold text-blue-600">5</div>
               <p className="text-sm text-gray-600">Content pieces uploaded</p>
             </CardContent>
           </Card>
@@ -159,7 +199,7 @@ const Dashboard = () => {
               <CardTitle>Total Earnings</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-green-600">0 ICP</div>
+              <div className="text-3xl font-bold text-green-600">12 ICP</div>
               <p className="text-sm text-gray-600">Total revenue earned</p>
             </CardContent>
           </Card>
@@ -169,7 +209,7 @@ const Dashboard = () => {
               <CardTitle>Total Sales</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-600">0</div>
+              <div className="text-3xl font-bold text-purple-600">8</div>
               <p className="text-sm text-gray-600">Content purchases</p>
             </CardContent>
           </Card>

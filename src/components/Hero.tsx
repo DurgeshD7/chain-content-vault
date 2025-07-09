@@ -2,10 +2,28 @@
 import { ArrowRight, Shield, Coins, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { connectPlug, isPlugConnected } from "@/lib/plug";
 
 const Hero = () => {
   console.log("Hero component rendering");
   const navigate = useNavigate();
+  const [plugStatus, setPlugStatus] = useState<"idle"|"connecting"|"connected"|"error">(isPlugConnected() ? "connected" : "idle");
+  const [plugPrincipal, setPlugPrincipal] = useState<string | null>(null);
+  const [plugError, setPlugError] = useState<string | null>(null);
+
+  const handleConnectPlug = async () => {
+    setPlugStatus("connecting");
+    setPlugError(null);
+    const result = await connectPlug();
+    if (result.connected) {
+      setPlugStatus("connected");
+      setPlugPrincipal(result.principal || null);
+    } else {
+      setPlugStatus("error");
+      setPlugError(result.error || "Failed to connect to Plug Wallet");
+    }
+  };
   
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
@@ -27,6 +45,29 @@ const Hero = () => {
             The first decentralized platform powered by ICP blockchain where creators retain full control, 
             smart contracts protect copyrights, and payments are instant and fair.
           </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
+            {plugStatus !== "connected" ? (
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105"
+                onClick={handleConnectPlug}
+                disabled={plugStatus === "connecting"}
+              >
+                {plugStatus === "connecting" ? "Connecting to Plug..." : "Connect Plug Wallet"}
+              </Button>
+            ) : (
+              <div className="flex flex-col items-center">
+                <span className="text-green-400 font-semibold mb-1">Plug Connected</span>
+                {plugPrincipal && (
+                  <span className="text-xs text-gray-300 break-all">{plugPrincipal}</span>
+                )}
+              </div>
+            )}
+            {plugStatus === "error" && (
+              <span className="text-red-400 text-sm mt-2">{plugError}</span>
+            )}
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button 

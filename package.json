@@ -8,7 +8,8 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postdfx": "cp .dfx/local/canisters/content_registry/service.did.js src/declarations/content_registry.did.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
