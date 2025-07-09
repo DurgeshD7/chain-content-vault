@@ -14,7 +14,134 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      content: {
+        Row: {
+          canister_id: string | null
+          content_hash: string | null
+          created_at: string
+          creator_id: string
+          description: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          is_published: boolean | null
+          price_icp: number
+          title: string
+          total_revenue: number | null
+          total_sales: number | null
+          updated_at: string
+        }
+        Insert: {
+          canister_id?: string | null
+          content_hash?: string | null
+          created_at?: string
+          creator_id: string
+          description?: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id?: string
+          is_published?: boolean | null
+          price_icp?: number
+          title: string
+          total_revenue?: number | null
+          total_sales?: number | null
+          updated_at?: string
+        }
+        Update: {
+          canister_id?: string | null
+          content_hash?: string | null
+          created_at?: string
+          creator_id?: string
+          description?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          is_published?: boolean | null
+          price_icp?: number
+          title?: string
+          total_revenue?: number | null
+          total_sales?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          icp_principal: string | null
+          id: string
+          updated_at: string
+          username: string | null
+          wallet_address: string | null
+        }
+        Insert: {
+          created_at?: string
+          icp_principal?: string | null
+          id: string
+          updated_at?: string
+          username?: string | null
+          wallet_address?: string | null
+        }
+        Update: {
+          created_at?: string
+          icp_principal?: string | null
+          id?: string
+          updated_at?: string
+          username?: string | null
+          wallet_address?: string | null
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount_icp: number
+          block_height: number | null
+          buyer_id: string
+          content_id: string
+          created_at: string
+          creator_id: string
+          id: string
+          status: string | null
+          transaction_hash: string | null
+        }
+        Insert: {
+          amount_icp: number
+          block_height?: number | null
+          buyer_id: string
+          content_id: string
+          created_at?: string
+          creator_id: string
+          id?: string
+          status?: string | null
+          transaction_hash?: string | null
+        }
+        Update: {
+          amount_icp?: number
+          block_height?: number | null
+          buyer_id?: string
+          content_id?: string
+          created_at?: string
+          creator_id?: string
+          id?: string
+          status?: string | null
+          transaction_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "content"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

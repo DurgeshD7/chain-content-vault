@@ -1,0 +1,38 @@
+
+type ContentRegistration = record {
+  id : text;
+  creator : principal;
+  title : text;
+  description : text;
+  content_hash : text;
+  price_icp : nat64;
+  created_at : nat64;
+  total_sales : nat64;
+  total_revenue : nat64;
+  is_active : bool;
+};
+
+type PaymentRecord = record {
+  id : text;
+  content_id : text;
+  buyer : principal;
+  creator : principal;
+  amount_icp : nat64;
+  timestamp : nat64;
+  transaction_hash : text;
+};
+
+type Result = variant { Ok : ContentRegistration; Err : text };
+type Result_1 = variant { Ok : PaymentRecord; Err : text };
+
+service : {
+  get_content : (text) -> (opt ContentRegistration) query;
+  get_content_by_creator : (principal) -> (vec ContentRegistration) query;
+  get_payments_by_buyer : (principal) -> (vec PaymentRecord) query;
+  get_payments_for_content : (text) -> (vec PaymentRecord) query;
+  get_stats : () -> (nat64, nat64) query;
+  has_purchased_content : (principal, text) -> (bool) query;
+  record_payment : (text, text, nat64, text) -> (Result_1);
+  register_content : (text, text, text, text, nat64) -> (Result);
+  update_content_status : (text, bool) -> (Result);
+}

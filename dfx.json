@@ -1,0 +1,32 @@
+
+{
+  "version": 1,
+  "canisters": {
+    "content_registry": {
+      "type": "rust",
+      "package": "content_registry",
+      "candid": "canisters/content_registry/content_registry.did"
+    },
+    "internet_identity": {
+      "type": "pull",
+      "id": "rdmx6-jaaaa-aaaah-qcaiq-cai"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:4943",
+      "type": "ephemeral"
+    },
+    "ic": {
+      "providers": ["https://icp0.io"],
+      "type": "persistent"
+    }
+  }
+}
