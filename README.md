@@ -194,7 +194,7 @@ dfx canister call content_registry get_stats
 - [x] File upload functionality
 - [x] Database structure
 - [x] Smart contract template
-- [ ] ICP wallet integration (full implementation)
+- [x] ICP wallet integration (full implementation)
 - [ ] Payment processing
 
 ### Phase 2 (Next)
